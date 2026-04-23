@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { Parametros } from '../utils/calcular'
+import MoneyInput from './MoneyInput'
 
 interface Props {
   onCalcular: (params: Parametros) => void
@@ -31,28 +32,20 @@ export default function Form({ onCalcular }: Props) {
 
       <div className="flex flex-col gap-1">
         <label className="text-sm font-medium text-gray-600">Valor inicial (R$)</label>
-        <input
-          type="number"
-          min="0"
-          step="0.01"
+        <MoneyInput
           value={valorInicial}
-          onChange={e => setValorInicial(e.target.value)}
+          onChange={setValorInicial}
           className="border border-gray-200 rounded-lg px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition"
-          placeholder="0,00"
           required
         />
       </div>
 
       <div className="flex flex-col gap-1">
         <label className="text-sm font-medium text-gray-600">Aporte mensal (R$)</label>
-        <input
-          type="number"
-          min="0"
-          step="0.01"
+        <MoneyInput
           value={aporteMensal}
-          onChange={e => setAporteMensal(e.target.value)}
+          onChange={setAporteMensal}
           className="border border-gray-200 rounded-lg px-3 py-2 text-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-400 transition"
-          placeholder="0,00"
           required
         />
       </div>
