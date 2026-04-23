@@ -1,38 +1,105 @@
-import { useState } from 'react'
+import { useState, useMemo, useCallback, useEffect } from 'react'
 import Form from './components/Form'
 import Chart from './components/Chart'
+import SummaryCards from './components/SummaryCards'
+import BreakdownTable from './components/BreakdownTable'
 import { calcularJurosCompostos } from './utils/calcular'
-import type { PontoMensal, Parametros } from './utils/calcular'
+import type { Parametros } from './utils/calcular'
+
+const DEFAULT_PARAMS: Parametros = {
+  valorInicial: 1000,
+  aporteMensal: 200,
+  taxaInput: 1,
+  periodoTaxa: 'mensal',
+  quantidade: 24,
+  periodoPeriodo: 'meses',
+}
+
+function SunIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="12" cy="12" r="4" />
+      <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
+    </svg>
+  )
+}
+
+function MoonIcon() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  )
+}
 
 export default function App() {
-  const [dados, setDados] = useState<PontoMensal[]>([])
+  const [params, setParams] = useState<Parametros>(DEFAULT_PARAMS)
+  const [isDark, setIsDark] = useState(true)
 
-  function handleCalcular(params: Parametros) {
-    setDados(calcularJurosCompostos(params))
-  }
+  useEffect(() => {
+    document.documentElement.style.backgroundColor = isDark ? '#09090b' : '#f4f4f5'
+  }, [isDark])
+
+  const dados = useMemo(() => calcularJurosCompostos(params), [params])
+
+  const handleUpdate = useCallback(<K extends keyof Parametros>(key: K, value: Parametros[K]) => {
+    setParams((prev) => ({ ...prev, [key]: value }))
+  }, [])
+
+  const bg = isDark ? 'bg-zinc-950' : 'bg-zinc-100'
+  const headerBorder = isDark ? 'border-zinc-800/60' : 'border-zinc-200'
+  const headerText = isDark ? 'text-zinc-300' : 'text-zinc-700'
+  const themeBtnWrap = isDark ? 'bg-zinc-800/80' : 'bg-zinc-200/70'
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white border-b border-gray-100 px-6 py-4">
-        <h1 className="text-xl font-bold text-gray-800">Calculadora de Juros Compostos</h1>
-      </header>
-
-      <main className="max-w-6xl mx-auto px-4 py-8 flex flex-col gap-6 lg:flex-row lg:items-start">
-        <div className="w-full lg:w-72 shrink-0">
-          <Form onCalcular={handleCalcular} />
+    <div className={`min-h-screen ${bg} transition-colors duration-200`}>
+      {/* Header */}
+      <header className={`border-b ${headerBorder} px-6 py-4 flex items-center justify-between`}>
+        <div className="flex items-center gap-3">
+          <div className="w-6 h-6 rounded-md bg-emerald-500 flex items-center justify-center shrink-0">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
+              <path d="M2 12 L6 8 L9 10 L14 4" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+          <span className={`text-sm font-semibold ${headerText} tracking-tight`}>Juros Compostos</span>
         </div>
 
-        <div className="flex-1 min-w-0">
-          {dados.length > 0 ? (
-            <Chart dados={dados} />
-          ) : (
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 flex flex-col items-center justify-center text-center gap-3 h-full min-h-[300px]">
-              <svg className="w-12 h-12 text-gray-200" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z" />
-              </svg>
-              <p className="text-gray-400 text-sm">Preencha os parâmetros e clique em <strong>Calcular</strong> para ver o gráfico</p>
-            </div>
-          )}
+        {/* Theme toggle */}
+        <div className={`flex rounded-lg ${themeBtnWrap} p-[3px] gap-[2px]`}>
+          <button
+            onClick={() => setIsDark(false)}
+            title="Modo claro"
+            className={`p-1.5 rounded-md transition-all cursor-pointer ${
+              !isDark
+                ? 'bg-white text-zinc-700 shadow-sm'
+                : 'text-zinc-500 hover:text-zinc-300'
+            }`}
+          >
+            <SunIcon />
+          </button>
+          <button
+            onClick={() => setIsDark(true)}
+            title="Modo escuro"
+            className={`p-1.5 rounded-md transition-all cursor-pointer ${
+              isDark
+                ? 'bg-zinc-700 text-zinc-100 shadow-sm'
+                : 'text-zinc-400 hover:text-zinc-600'
+            }`}
+          >
+            <MoonIcon />
+          </button>
+        </div>
+      </header>
+
+      {/* Main */}
+      <main className="max-w-7xl mx-auto px-4 py-8 flex flex-col lg:flex-row gap-6 items-start">
+        <div className="w-full lg:w-80 shrink-0">
+          <Form params={params} onUpdate={handleUpdate} isDark={isDark} />
+        </div>
+        <div className="flex-1 min-w-0 flex flex-col gap-4">
+          <SummaryCards dados={dados} isDark={isDark} />
+          <Chart dados={dados} isDark={isDark} />
+          <BreakdownTable dados={dados} isDark={isDark} />
         </div>
       </main>
     </div>

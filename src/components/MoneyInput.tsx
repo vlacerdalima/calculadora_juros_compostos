@@ -1,15 +1,18 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 interface Props {
-  value: string
-  onChange: (value: string) => void
+  value: number
+  onChange: (value: number) => void
   className?: string
   required?: boolean
 }
 
-// Aplica a máscara "X.XXX,XX" a cada keystroke
+function formatBRL(value: number): string {
+  if (!value) return ''
+  return value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+}
+
 function applyMask(input: string): string {
-  // Remove separadores de milhar existentes para trabalhar só com dígitos e vírgula
   const withoutDots = input.replace(/\./g, '')
   const commaIdx = withoutDots.indexOf(',')
 
@@ -29,37 +32,39 @@ function applyMask(input: string): string {
   return decStr === null ? intFormatted : `${intFormatted},${decStr}`
 }
 
-function toNumericString(masked: string): string {
-  if (!masked) return '0'
+function parseDisplay(masked: string): number {
+  if (!masked) return 0
   const num = parseFloat(masked.replace(/\./g, '').replace(',', '.'))
-  return isNaN(num) ? '0' : String(num)
-}
-
-function initDisplay(value: string): string {
-  const num = parseFloat(value)
-  if (!num) return ''
-  return num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  return isNaN(num) ? 0 : num
 }
 
 export default function MoneyInput({ value, onChange, className, required }: Props) {
-  const [display, setDisplay] = useState(() => initDisplay(value))
+  const [display, setDisplay] = useState(() => formatBRL(value))
+  const isFocusedRef = useRef(false)
+
+  // Sync display when parent changes the value (e.g. slider)
+  useEffect(() => {
+    if (!isFocusedRef.current) {
+      setDisplay(formatBRL(value))
+    }
+  }, [value])
 
   function handleFocus(e: React.FocusEvent<HTMLInputElement>) {
+    isFocusedRef.current = true
     e.target.select()
+  }
+
+  function handleBlur() {
+    isFocusedRef.current = false
+    const num = parseDisplay(display)
+    onChange(num)
+    setDisplay(formatBRL(num))
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const masked = applyMask(e.target.value)
     setDisplay(masked)
-    onChange(toNumericString(masked))
-  }
-
-  function handleBlur() {
-    // Garante 2 casas decimais ao sair do campo
-    const num = parseFloat(toNumericString(display))
-    if (num > 0) {
-      setDisplay(num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }))
-    }
+    onChange(parseDisplay(masked))
   }
 
   return (
@@ -69,8 +74,8 @@ export default function MoneyInput({ value, onChange, className, required }: Pro
       autoComplete="off"
       value={display}
       onFocus={handleFocus}
-      onChange={handleChange}
       onBlur={handleBlur}
+      onChange={handleChange}
       placeholder="0,00"
       className={className}
       required={required}
