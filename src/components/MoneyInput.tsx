@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 interface Props {
   value: number
   onChange: (value: number) => void
+  placeholder?: string
   className?: string
   required?: boolean
 }
@@ -38,7 +39,7 @@ function parseDisplay(masked: string): number {
   return isNaN(num) ? 0 : num
 }
 
-export default function MoneyInput({ value, onChange, className, required }: Props) {
+export default function MoneyInput({ value, onChange, placeholder = '0,00', className, required }: Props) {
   const [display, setDisplay] = useState(() => formatBRL(value))
   const isFocusedRef = useRef(false)
 
@@ -76,7 +77,7 @@ export default function MoneyInput({ value, onChange, className, required }: Pro
       onFocus={handleFocus}
       onBlur={handleBlur}
       onChange={handleChange}
-      placeholder="0,00"
+      placeholder={placeholder}
       className={className}
       required={required}
     />

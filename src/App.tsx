@@ -7,11 +7,11 @@ import { calcularJurosCompostos } from './utils/calcular'
 import type { Parametros } from './utils/calcular'
 
 const DEFAULT_PARAMS: Parametros = {
-  valorInicial: 1000,
-  aporteMensal: 200,
-  taxaInput: 1,
+  valorInicial: 0,
+  aporteMensal: 0,
+  taxaInput: 0,
   periodoTaxa: 'mensal',
-  quantidade: 24,
+  quantidade: 0,
   periodoPeriodo: 'meses',
 }
 
@@ -97,9 +97,33 @@ export default function App() {
           <Form params={params} onUpdate={handleUpdate} isDark={isDark} />
         </div>
         <div className="flex-1 min-w-0 flex flex-col gap-4">
-          <SummaryCards dados={dados} isDark={isDark} />
-          <Chart dados={dados} isDark={isDark} />
-          <BreakdownTable dados={dados} isDark={isDark} />
+          {dados.length > 0 ? (
+            <>
+              <SummaryCards dados={dados} isDark={isDark} />
+              <Chart dados={dados} isDark={isDark} />
+              <BreakdownTable dados={dados} isDark={isDark} />
+            </>
+          ) : (
+            <div className={`flex-1 flex flex-col items-center justify-center text-center rounded-2xl border border-dashed p-16 min-h-[420px] transition-colors duration-200 ${
+              isDark ? 'border-zinc-800' : 'border-zinc-300'
+            }`}>
+              <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-5 ${
+                isDark ? 'bg-emerald-500/10' : 'bg-emerald-50'
+              }`}>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" className="text-emerald-500">
+                  <path d="M3 17L8 12L12 15L17 9L21 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M3 7h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.3" />
+                  <path d="M3 21h18" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" opacity="0.3" />
+                </svg>
+              </div>
+              <h3 className={`text-base font-semibold mb-2 ${isDark ? 'text-zinc-300' : 'text-zinc-700'}`}>
+                Sua projeção aparece aqui
+              </h3>
+              <p className={`text-sm max-w-xs leading-relaxed ${isDark ? 'text-zinc-500' : 'text-zinc-400'}`}>
+                Preencha os campos ao lado para visualizar o crescimento do seu investimento ao longo do tempo
+              </p>
+            </div>
+          )}
         </div>
       </main>
     </div>

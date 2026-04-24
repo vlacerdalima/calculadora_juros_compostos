@@ -85,14 +85,14 @@ export default function Form({ params, onUpdate, isDark }: Props) {
       {/* Valor Inicial */}
       <div className="flex flex-col gap-2">
         <label className={label}>Valor inicial</label>
-        <MoneyInput value={params.valorInicial} onChange={(v) => onUpdate('valorInicial', v)} className={input} required />
+        <MoneyInput value={params.valorInicial} onChange={(v) => onUpdate('valorInicial', v)} placeholder="Ex: 10.000,00" className={input} />
         <Slider value={Math.min(params.valorInicial, 100000)} min={0} max={100000} step={500} onChange={(v) => onUpdate('valorInicial', v)} isDark={isDark} />
       </div>
 
       {/* Aporte Mensal */}
       <div className="flex flex-col gap-2">
         <label className={label}>Aporte mensal</label>
-        <MoneyInput value={params.aporteMensal} onChange={(v) => onUpdate('aporteMensal', v)} className={input} required />
+        <MoneyInput value={params.aporteMensal} onChange={(v) => onUpdate('aporteMensal', v)} placeholder="Ex: 500,00" className={input} />
         <Slider value={Math.min(params.aporteMensal, 10000)} min={0} max={10000} step={100} onChange={(v) => onUpdate('aporteMensal', v)} isDark={isDark} />
       </div>
 
@@ -108,8 +108,11 @@ export default function Form({ params, onUpdate, isDark }: Props) {
           />
         </div>
         <input
-          type="number" min={1} value={params.quantidade}
-          onChange={(e) => onUpdate('quantidade', Math.max(1, parseInt(e.target.value) || 1))}
+          type="number"
+          min={0}
+          value={params.quantidade || ''}
+          placeholder="Ex: 24"
+          onChange={(e) => onUpdate('quantidade', Math.max(0, parseInt(e.target.value) || 0))}
           className={input}
         />
         <Slider value={Math.min(params.quantidade, periodoMax)} min={1} max={periodoMax} step={1} onChange={(v) => onUpdate('quantidade', v)} isDark={isDark} />
@@ -130,7 +133,11 @@ export default function Form({ params, onUpdate, isDark }: Props) {
           />
         </div>
         <input
-          type="number" min={0} step={0.01} value={params.taxaInput}
+          type="number"
+          min={0}
+          step={0.01}
+          value={params.taxaInput || ''}
+          placeholder="Ex: 1,5"
           onChange={(e) => onUpdate('taxaInput', parseFloat(e.target.value) || 0)}
           className={input}
         />
