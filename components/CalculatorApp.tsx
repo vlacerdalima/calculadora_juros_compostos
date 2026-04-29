@@ -1,10 +1,12 @@
+'use client'
+
 import { useState, useMemo, useCallback, useEffect } from 'react'
-import Form from './components/Form'
-import Chart from './components/Chart'
-import SummaryCards from './components/SummaryCards'
-import BreakdownTable from './components/BreakdownTable'
-import { calcularJurosCompostos } from './utils/calcular'
-import type { Parametros } from './utils/calcular'
+import Form from '@/components/Form'
+import Chart from '@/components/Chart'
+import SummaryCards from '@/components/SummaryCards'
+import BreakdownTable from '@/components/BreakdownTable'
+import { calcularJurosCompostos } from '@/utils/calcular'
+import type { Parametros } from '@/utils/calcular'
 
 const DEFAULT_PARAMS: Parametros = {
   valorInicial: 0,
@@ -32,7 +34,7 @@ function MoonIcon() {
   )
 }
 
-export default function App() {
+export default function CalculatorApp() {
   const [params, setParams] = useState<Parametros>(DEFAULT_PARAMS)
   const [isDark, setIsDark] = useState(true)
 

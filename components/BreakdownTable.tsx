@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import type { PontoMensal } from '../utils/calcular'
-import { agruparPorAno, formatarReais } from '../utils/calcular'
+import type { PontoMensal } from '@/utils/calcular'
+import { agruparPorAno, formatarReais } from '@/utils/calcular'
 
 interface Props {
   dados: PontoMensal[]

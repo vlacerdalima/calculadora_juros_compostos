@@ -1,6 +1,6 @@
-import type { Parametros } from '../utils/calcular'
-import MoneyInput from './MoneyInput'
-import InfoTooltip from './InfoTooltip'
+import type { Parametros } from '@/utils/calcular'
+import MoneyInput from '@/components/MoneyInput'
+import InfoTooltip from '@/components/InfoTooltip'
 
 interface Props {
   params: Parametros

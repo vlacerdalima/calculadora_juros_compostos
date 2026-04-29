@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { animate } from 'framer-motion'
-import type { PontoMensal } from '../utils/calcular'
-import { formatarReais } from '../utils/calcular'
+import type { PontoMensal } from '@/utils/calcular'
+import { formatarReais } from '@/utils/calcular'
 
 interface Props {
   dados: PontoMensal[]

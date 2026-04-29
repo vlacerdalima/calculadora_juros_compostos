@@ -2,8 +2,8 @@ import {
   AreaChart, Area, XAxis, YAxis, CartesianGrid,
   Tooltip, ResponsiveContainer, Legend,
 } from 'recharts'
-import type { PontoMensal } from '../utils/calcular'
-import { formatarReais } from '../utils/calcular'
+import type { PontoMensal } from '@/utils/calcular'
+import { formatarReais } from '@/utils/calcular'
 
 interface Props {
   dados: PontoMensal[]

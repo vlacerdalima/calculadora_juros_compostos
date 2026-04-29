@@ -43,7 +43,6 @@ export default function MoneyInput({ value, onChange, placeholder = '0,00', clas
   const [display, setDisplay] = useState(() => formatBRL(value))
   const isFocusedRef = useRef(false)
 
-  // Sync display when parent changes the value (e.g. slider)
   useEffect(() => {
     if (!isFocusedRef.current) {
       setDisplay(formatBRL(value))

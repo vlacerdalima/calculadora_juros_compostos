@@ -1,12 +1,20 @@
 # Dependências
 node_modules/
 
+# Next.js
+.next/
+out/
+next-env.d.ts
+
 # Build
 dist/
 dist-ssr/
+build/
 
-# Cache Vite
+# Cache
 .vite/
+.cache/
+.turbo/
 
 # TypeScript
 *.tsbuildinfo
@@ -23,6 +31,7 @@ pnpm-debug.log*
 .env
 .env.local
 .env.*.local
+.env.production
 
 # Editores
 .vscode/
