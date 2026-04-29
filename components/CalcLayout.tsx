@@ -37,31 +37,25 @@ export default function CalcLayout({ title, subtitle, iconBg, icon, children }: 
 
   const bg = isDark ? 'bg-zinc-950' : 'bg-zinc-100'
   const headerBorder = isDark ? 'border-zinc-800/60' : 'border-zinc-200'
-  const headerText = isDark ? 'text-zinc-300' : 'text-zinc-700'
-  const backText = isDark ? 'text-zinc-500 hover:text-zinc-300' : 'text-zinc-400 hover:text-zinc-600'
   const themeBtnWrap = isDark ? 'bg-zinc-800/80' : 'bg-zinc-200/70'
+  const breadcrumbSep = isDark ? 'text-zinc-700' : 'text-zinc-300'
+  const breadcrumbHome = isDark ? 'text-zinc-400 hover:text-zinc-100' : 'text-zinc-500 hover:text-zinc-800'
+  const breadcrumbCurrent = isDark ? 'text-zinc-200' : 'text-zinc-700'
 
   return (
     <div className={`min-h-screen ${bg} transition-colors duration-200`}>
       <header className={`border-b ${headerBorder} px-6 py-4 flex items-center justify-between`}>
         <div className="flex items-center gap-3">
-          <Link
-            href="/"
-            className={`text-xs font-medium transition-colors ${backText} flex items-center gap-1 mr-1`}
-            title="Voltar ao hub"
-          >
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
-              <path d="M10 3L5 8l5 5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-            Hub
-          </Link>
           <div className={`w-6 h-6 rounded-md ${iconBg} flex items-center justify-center shrink-0`}>
             {icon}
           </div>
-          <div className="flex flex-col">
-            <span className={`text-sm font-semibold ${headerText} tracking-tight leading-tight`}>{title}</span>
-            {subtitle && <span className={`text-xs ${isDark ? 'text-zinc-500' : 'text-zinc-400'} leading-tight`}>{subtitle}</span>}
-          </div>
+          <nav aria-label="breadcrumb" className="flex items-center gap-1.5">
+            <Link href="/" className={`text-sm font-semibold transition-colors ${breadcrumbHome}`}>
+              VouCalcular
+            </Link>
+            <span className={`text-sm font-light ${breadcrumbSep}`}>/</span>
+            <span className={`text-sm font-semibold ${breadcrumbCurrent}`}>{title}</span>
+          </nav>
         </div>
 
         <div className={`flex rounded-lg ${themeBtnWrap} p-[3px] gap-[2px]`}>

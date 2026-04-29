@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo, useCallback, useEffect } from 'react'
+import Link from 'next/link'
 import Form from '@/components/Form'
 import Chart from '@/components/Chart'
 import SummaryCards from '@/components/SummaryCards'
@@ -63,7 +64,13 @@ export default function CalculatorApp() {
               <path d="M2 12 L6 8 L9 10 L14 4" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
-          <span className={`text-sm font-semibold ${headerText} tracking-tight`}>Juros Compostos</span>
+          <nav aria-label="breadcrumb" className="flex items-center gap-1.5">
+            <Link href="/" className={`text-sm font-semibold transition-colors ${isDark ? 'text-zinc-400 hover:text-zinc-100' : 'text-zinc-500 hover:text-zinc-800'}`}>
+              VouCalcular
+            </Link>
+            <span className={`text-sm font-light ${isDark ? 'text-zinc-700' : 'text-zinc-300'}`}>/</span>
+            <span className={`text-sm font-semibold ${headerText}`}>Juros Compostos</span>
+          </nav>
         </div>
 
         {/* Theme toggle */}

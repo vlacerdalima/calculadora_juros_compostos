@@ -10,10 +10,10 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Calculadoras Financeiras',
-    default: 'Calculadoras Financeiras',
+    template: '%s | VouCalcular',
+    default: 'VouCalcular',
   },
-  description: 'Ferramentas gratuitas para cálculos financeiros de forma fácil e rápida.',
+  description: 'VouCalcular — ferramentas gratuitas para cálculos financeiros e de saúde de forma fácil e rápida.',
   icons: {
     icon: [
       { url: '/favicon.ico' },

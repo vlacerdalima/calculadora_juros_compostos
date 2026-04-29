@@ -2,9 +2,9 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-  title: 'Calculadoras Financeiras e de Saúde Gratuitas',
+  title: 'VouCalcular — Calculadoras Gratuitas',
   description:
-    'Hub de calculadoras gratuitas: juros compostos, financiamento SAC/PRICE, IMC, ' +
+    'VouCalcular: hub de calculadoras gratuitas — juros compostos, financiamento SAC/PRICE, IMC, ' +
     'porcentagem, salário líquido e ROI. Cálculos fáceis, sem cadastro.',
 }
 
@@ -108,7 +108,7 @@ export default function HomePage() {
               <path d="M2 12 L6 8 L9 10 L14 4" stroke="white" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
-          <span className="text-lg font-bold tracking-tight">Calculadoras</span>
+          <span className="text-lg font-bold tracking-tight">VouCalcular</span>
         </div>
 
         <div className="flex flex-col items-center gap-4 max-w-2xl">
